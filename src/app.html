@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
@@ -136,9 +136,27 @@ input{font:inherit}
 .answer-input.ok{border-color:#7bcf9d;background:var(--good-weak)}
 .answer-input.err{border-color:#f0a9a3;background:var(--bad-weak)}
 
-.hint-row{margin-top:12px;display:flex;align-items:center;gap:10px;min-height:26px}
+.hint-row{margin-top:16px;display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;min-height:38px}
 .hint-text{font-family:Georgia,"Times New Roman",serif;font-size:23px;letter-spacing:.06em;color:var(--brand-ink)}
 .hint-empty{font-size:13.5px;color:var(--muted)}
+/* 字母横线格 */
+.slots{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin:2px 0 4px}
+.slot{
+  min-width:25px;height:38px;padding:0 2px 3px;
+  border-bottom:4px solid #c9d0e0;border-radius:2px;
+  display:inline-flex;align-items:flex-end;justify-content:center;
+  font-family:Georgia,"Times New Roman",serif;font-size:31px;font-weight:700;line-height:1;
+  color:var(--ink);transition:color .12s,border-color .12s;
+}
+.slot.shown{color:var(--brand);border-bottom-color:#8ea6f8}
+.slot.ok{color:var(--good);border-bottom-color:var(--good)}
+.slot.bad{color:var(--bad);border-bottom-color:var(--bad)}
+.slot.over{color:var(--bad);border-bottom-color:var(--bad);animation:shake .18s}
+.slot-count{font-size:13.5px;color:var(--muted);padding-bottom:6px}
+.slot-count b{color:var(--ink);font-size:15px}
+.slot-count .over{color:var(--bad);font-weight:700}
+.hint-tip{font-size:12.5px;color:var(--muted);margin-top:6px}
+@keyframes shake{0%{transform:translateX(0)}50%{transform:translateX(-2px)}100%{transform:translateX(0)}}
 
 .actions{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
 .btn{padding:13px 22px;border-radius:12px;font-weight:600;font-size:16px;transition:.15s;border:1px solid transparent}
@@ -218,6 +236,48 @@ input{font:inherit}
 .seg button{padding:8px 14px;border-radius:9px;font-size:14px;color:var(--muted);font-weight:600}
 .seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(20,30,60,.1)}
 .nb-list{display:flex;flex-direction:column;gap:9px}
+/* 日期筛选 */
+.daybar{display:flex;gap:8px;overflow-x:auto;padding:12px 2px 4px;margin-top:2px;scrollbar-width:thin}
+.daybar::-webkit-scrollbar{height:5px}
+.daybar::-webkit-scrollbar-thumb{background:#d5dbe9;border-radius:99px}
+.daychip{
+  flex:0 0 auto;padding:7px 13px;border-radius:99px;border:1px solid var(--line);
+  background:var(--card);color:var(--muted);font-size:13.5px;font-weight:600;transition:.15s;white-space:nowrap;
+}
+.daychip b{font-weight:700;color:var(--ink);margin-left:2px}
+.daychip:hover{border-color:#c9d3f5;color:var(--brand-ink)}
+.daychip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.daychip.on b{color:#fff}
+.cal-btn{margin-left:auto;border-style:dashed;color:var(--brand-ink)}
+.cal-btn.on{border-style:solid;background:var(--brand-weak);border-color:#c9d3f5;color:var(--brand-ink)}
+/* 日历弹层 */
+.daybar-wrap{position:relative}
+.cal-pop{
+  position:absolute;right:0;top:calc(100% + 6px);z-index:45;width:308px;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  box-shadow:0 12px 32px rgba(20,30,60,.14);padding:12px 12px 10px;
+}
+.cal-head{display:flex;align-items:center;justify-content:space-between;padding:2px 2px 8px}
+.cal-title{font-weight:700;font-size:15.5px}
+.cal-nav{width:30px;height:30px;border-radius:9px;color:var(--muted);font-size:20px;line-height:1}
+.cal-nav:hover{background:var(--brand-weak);color:var(--brand)}
+.cal-nav:disabled{opacity:.3;background:none;cursor:not-allowed}
+.cal-week{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;padding:0 2px 4px;color:var(--muted);font-size:12px;text-align:center}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-cell{
+  height:36px;display:flex;align-items:center;justify-content:center;border-radius:50%;
+  font-size:13.5px;color:var(--ink);background:none;border:0;width:100%;
+}
+button.cal-cell:hover{background:var(--brand-weak);color:var(--brand-ink)}
+.cal-cell.blank{visibility:hidden}
+.cal-cell.off{color:#c8cedd;cursor:not-allowed}
+.cal-cell.today{color:var(--brand);font-weight:700}
+.cal-cell.sel{background:var(--good);color:#fff;font-weight:700;box-shadow:0 0 0 2px #c9ebd7}
+.cal-cell.sel:hover{background:var(--good);color:#fff}
+.cal-foot{display:flex;justify-content:space-between;gap:8px;margin-top:8px;padding:6px 2px 0;border-top:1px solid var(--line)}
+.cal-today,.cal-clear{font-size:12.5px;color:var(--muted);padding:5px 8px;border-radius:8px}
+.cal-today:hover,.cal-clear:hover{background:var(--brand-weak);color:var(--brand-ink)}
+@media(max-width:640px){.cal-pop{left:0;right:auto;width:min(320px,92vw)}}
 .nb-item{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:13px 15px;
   display:flex;align-items:flex-start;gap:12px}
 .nb-item .main{flex:1;min-width:0}
@@ -276,26 +336,46 @@ const VOCAB = VOCAB_RAW.map(function (r, i) {
 });
 
 /* ---------------- storage ---------------- */
-const STORE_KEY = 'cet4-vocab-v1';
+const STORE_KEY = 'cet4-vocab-v2';
+const LEGACY_KEY = 'cet4-vocab-v1';
 const DEFAULT_STATE = {
-  version: 1,
-  stats: {},        // id -> {t,w,h,nb,last,at}  t=tested w=wrong h=hint nb=in notebook
-  sessions: [],     // {mode, at, total, correct, wrong, skipped}
+  version: 2,
+  stats: {},        // id -> {d:{t,c,w}, m:{t,c,w}, nb, h, at}
+  sessions: [],
   settings: { size: 25 }
 };
 
-function uid() { return Math.random().toString(36).slice(2, 10); }
+function blankMod() { return { t: 0, c: 0, w: 0 }; }
+
+/* v1 -> v2：旧数据只有合并的 t/w，无法拆分模块，因此计数归零，
+   但保留「在生词本」与「用过提示」状态，避免生词本被清空。 */
+function migrateStat(s) {
+  if (s && s.d && s.m) {
+    if (s.nb && !s.nbAt) s.nbAt = s.at || 0;   // 补上「进入生词本时间」
+    return s;
+  }
+  return {
+    d: blankMod(), m: blankMod(),
+    nb: !!(s && s.nb), h: !!(s && s.h),
+    at: (s && s.at) || 0,
+    nbAt: (s && (s.nbAt || s.at)) || 0
+  };
+}
 
 function loadState() {
   try {
-    const raw = localStorage.getItem(STORE_KEY);
+    let raw = localStorage.getItem(STORE_KEY);
+    if (!raw) raw = localStorage.getItem(LEGACY_KEY);   // 从 v1 迁移
     if (!raw) return JSON.parse(JSON.stringify(DEFAULT_STATE));
     const s = JSON.parse(raw);
-    return Object.assign({}, DEFAULT_STATE, s, {
-      stats: s.stats || {},
+    const stats = {};
+    Object.keys(s.stats || {}).forEach(function (k) { stats[k] = migrateStat(s.stats[k]); });
+    return {
+      version: 2,
+      stats: stats,
       sessions: Array.isArray(s.sessions) ? s.sessions : [],
       settings: Object.assign({}, DEFAULT_STATE.settings, s.settings || {})
-    });
+    };
   } catch (e) {
     console.warn('读取存档失败', e);
     return JSON.parse(JSON.stringify(DEFAULT_STATE));
@@ -316,11 +396,33 @@ function saveState() {
 function statOf(id) {
   let s = STATE.stats[id];
   if (!s) {
-    s = { t: 0, w: 0, h: false, nb: false, last: '', at: 0 };
+    s = { d: blankMod(), m: blankMod(), nb: false, h: false, at: 0, nbAt: 0 };
     STATE.stats[id] = s;
   }
+  if (!s.d || !s.m) STATE.stats[id] = s = migrateStat(s);
   return s;
 }
+
+/* 加入生词本（只记录第一次进入的时间，之后不再变） */
+function addNotebook(st) {
+  if (!st.nb) {
+    st.nb = true;
+    st.nbAt = Date.now();
+  } else if (!st.nbAt) {
+    st.nbAt = st.at || Date.now();
+  }
+}
+
+function modOf(st, mod) { return mod === 'dict' ? st.d : st.m; }
+
+/* 某一模块是否「已掌握」：考过，且正确次数 >= 错误次数 */
+function mastered(st, mod) {
+  const m = modOf(st, mod);
+  return m.t > 0 && m.c >= m.w;
+}
+
+function totalWrong(st) { return (st.d.w || 0) + (st.m.w || 0); }
+function totalTested(st) { return (st.d.t || 0) + (st.m.t || 0); }
 
 /* ---------------- helpers ---------------- */
 const $ = function (sel, root) { return (root || document).querySelector(sel); };
@@ -351,7 +453,7 @@ function toast(msg, ms) {
 }
 
 /* ---------------- app state ---------------- */
-const APP = { screen: 'books', session: null, book: 'cet4' };
+const APP = { screen: 'books', session: null, book: 'cet4', nbDay: null, calOpen: false, calY: 0, calM: 0 };
 
 /* ============================================================
    词书
@@ -363,50 +465,49 @@ const BOOKS = [
 ];
 
 /* ============================================================
-   选择题目
+   选择题目（按模块分别判定）
    规则：
-   1. 生词本（答错 / 不会 / 给过提示）最多抽 5 题，错误多的优先
-   2. 其余全部抽「从没考过」的新词
-   3. 生词本不足 5 个时，新词数量自动补足（20 → 21、22…）
-   4. 考过且答对、已不在生词本的词不重复考；只有新词耗尽时才按「最久没考」回收
+   1. 默写 / 词义各自统计，一个词两个模块都要各考一次
+   2. 某模块「正确次数 >= 错误次数」= 该模块已掌握，不再考
+   3. 两个模块都掌握 = 整个词不再考（但生词本永久保留）
+   4. 每场 25 题：最多 5 题是该模块「还没掌握、且错过」的词，其余抽该模块「还没考过」的词
    ============================================================ */
 function buildQueue(mode) {
   const total = STATE.settings.size || 25;
   const reviewMax = 5;
 
-  const fresh = [];     // 从没考过
-  const notebook = [];  // 在生词本里
-  const settled = [];   // 考过、答对、已移出生词本
+  const fresh = [];    // 该模块还没考过
+  const review = [];   // 该模块考过但还欠账（correct < wrong）
+  const done = [];     // 该模块已掌握
 
   for (let i = 0; i < VOCAB.length; i++) {
-    const st = STATE.stats[i];
-    if (!st || !st.t) fresh.push(i);
-    else if (st.nb) notebook.push(i);
-    else settled.push(i);
+    const raw = STATE.stats[i];
+    const st = raw || null;
+    const m = st ? (mode === 'dict' ? st.d : st.m) : null;
+    if (!m || !m.t) fresh.push(i);
+    else if (m.c < m.w) review.push(i);
+    else done.push(i);
   }
 
-  // 生词本排序：错误多的优先 → 给过提示的次之 → 最久没考的优先
-  const score = function (id) {
-    const s = STATE.stats[id] || {};
-    return (s.w || 0) * 2 + (s.h ? 1 : 0);
+  // 复习词排序：欠得多的优先 → 最久没碰的优先
+  const debt = function (id) {
+    const st = STATE.stats[id];
+    const m = modOf(st, mode);
+    return (m.w - m.c) * 10 + (st.h ? 1 : 0);
   };
-  notebook.sort(function (a, b) {
-    const d = score(b) - score(a);
+  review.sort(function (a, b) {
+    const d = debt(b) - debt(a);
     if (d) return d;
     return (STATE.stats[a].at || 0) - (STATE.stats[b].at || 0);
   });
 
   const picked = [];
-  // 1) 生词本：最多 5 题
-  pickInto(picked, notebook, Math.min(reviewMax, total));
-  // 2) 新词补满（生词本少时新词自动变多）
-  pickInto(picked, shuffle(fresh), total);
-  // 3) 只有新词耗尽，才回收「考过且答对」的词，最久没考的优先
-  if (picked.length < total) {
-    settled.sort(function (a, b) { return ((STATE.stats[a].at || 0) - (STATE.stats[b].at || 0)); });
-    pickInto(picked, settled, total);
+  pickInto(picked, review, Math.min(reviewMax, total));   // 最多 5 题复习
+  pickInto(picked, shuffle(fresh), total);                // 其余全用本模块新词
+  if (picked.length < total) {                            // 新词耗尽才回收
+    done.sort(function (a, b) { return ((STATE.stats[a].at || 0) - (STATE.stats[b].at || 0)); });
+    pickInto(picked, done, total);
   }
-  // 4) 极端兜底（理论上不会走到）
   if (picked.length < total) {
     const rest = shuffle(VOCAB.map(function (_, i) { return i; }).filter(function (id) { return picked.indexOf(id) < 0; }));
     pickInto(picked, rest, total);
@@ -431,12 +532,53 @@ function normAnswer(s) {
     .toLowerCase();
 }
 function stripHyphen(s) { return s.replace(/[-\u2010-\u2015]/g, ''); }
+
+/* 英式 / 美式拼写对照表（只收录常见 CET-4 词） */
+const SPELL_PAIRS = [
+  ['colour', 'color'], ['behaviour', 'behavior'], ['favour', 'favor'], ['honour', 'honor'],
+  ['labour', 'labor'], ['neighbour', 'neighbor'], ['humour', 'humor'], ['rumour', 'rumor'],
+  ['harbour', 'harbor'], ['armour', 'armor'], ['odour', 'odor'], ['vapour', 'vapor'],
+  ['vigour', 'vigor'], ['splendor', 'splendour'], ['tumour', 'tumor'], ['endeavour', 'endeavor'],
+  ['savour', 'savor'], ['valour', 'valor'], ['parlour', 'parlor'], ['flavour', 'flavor'],
+  ['centre', 'center'], ['metre', 'meter'], ['litre', 'liter'], ['theatre', 'theater'],
+  ['fibre', 'fiber'], ['calibre', 'caliber'], ['sombre', 'somber'], ['lustre', 'luster'],
+  ['sceptre', 'scepter'], ['spectre', 'specter'], ['mitre', 'miter'], ['ochre', 'ocher'],
+  ['organise', 'organize'], ['realise', 'realize'], ['recognise', 'recognize'],
+  ['apologise', 'apologize'], ['criticise', 'criticize'], ['emphasise', 'emphasize'],
+  ['memorise', 'memorize'], ['summarise', 'summarize'], ['utilise', 'utilize'],
+  ['analyse', 'analyze'], ['paralyse', 'paralyze'], ['modernise', 'modernize'],
+  ['defence', 'defense'], ['offence', 'offense'], ['licence', 'license'],
+  ['pretence', 'pretense'], ['practise', 'practice'],
+  ['grey', 'gray'], ['tyre', 'tire'], ['kerb', 'curb'], ['plough', 'plow'],
+  ['mould', 'mold'], ['smoulder', 'smolder'], ['moustache', 'mustache'],
+  ['pyjamas', 'pajamas'], ['storey', 'story'], ['cheque', 'check'],
+  ['dialogue', 'dialog'], ['catalogue', 'catalog'], ['programme', 'program'],
+  ['traveller', 'traveler'], ['cancelled', 'canceled'], ['modelling', 'modeling'],
+  ['labelled', 'labeled'], ['fuelled', 'fueled'], ['jewellery', 'jewelry'],
+  ['aeroplane', 'airplane'], ['aluminium', 'aluminum'], ['draught', 'draft'],
+  ['skilful', 'skillful'], ['wilful', 'willful'], ['enrol', 'enroll'],
+  ['fulfil', 'fulfill'], ['instalment', 'installment']
+];
+const VARIANT_OF = {};
+SPELL_PAIRS.forEach(function (p) {
+  (VARIANT_OF[p[0]] = VARIANT_OF[p[0]] || []).push(p[1]);
+  (VARIANT_OF[p[1]] = VARIANT_OF[p[1]] || []).push(p[0]);
+});
+
+/* 判分：词表拼写必须对；英式/美式的另一种拼写，
+   只有「字母数与词表一致」时才判对（长度由题目横线给出，长度不同等于送分） */
 function answerMatches(input, target) {
   const a = normAnswer(input), b = normAnswer(target);
   if (!a) return false;
-  if (a === b) return true;
-  // 连字符可写可不写（词内空格仍需一致）
-  return stripHyphen(a) === stripHyphen(b);
+  const same = function (x, y) { return x === y || stripHyphen(x) === stripHyphen(y); };
+  if (same(a, b)) return true;
+  const alts = VARIANT_OF[b] || [];
+  for (let i = 0; i < alts.length; i++) {
+    const alt = alts[i];
+    if (alt.length !== b.length) continue;   // 长度不同：只认词表拼写
+    if (same(a, alt)) return true;
+  }
+  return false;
 }
 
 /* ============================================================
@@ -500,9 +642,10 @@ function submitDictation(rawInput) {
   if (!input.trim()) { toast('请先输入单词，或用「不会」记入生词本'); return; }
   const ok = answerMatches(input, w.word);
   const st = statOf(id);
-  st.t += 1;
+  const m = st.d;
+  m.t += 1;
   st.at = Date.now();
-  st.last = ok ? 'ok' : 'err';
+  if (ok) m.c += 1; else m.w += 1;
 
   s.answered = true;
   const rec = { id: id, result: ok ? 'ok' : 'err', input: input, hinted: s.hinted };
@@ -510,13 +653,9 @@ function submitDictation(rawInput) {
 
   if (ok) {
     s.correct++;
-    // 生词本：答对一次即移出
-    if (st.nb) { st.nb = false; st.h = false; }
-    else { st.h = false; }
   } else {
     s.wrong++;
-    st.w += 1;
-    st.nb = true;
+    addNotebook(st);           // 生词本只增不减
     if (s.hinted) st.h = true;
   }
   saveState();
@@ -535,7 +674,11 @@ function skipWord(kind) {
   if (s.answered) return;
   const id = s.ids[s.i];
   const st = statOf(id);
-  st.t += 1; st.w += 1; st.nb = true; st.at = Date.now(); st.last = 'err';
+  const m = st.d;
+  m.t += 1; m.w += 1;
+  addNotebook(st);
+  st.at = Date.now();
+  if (s.hinted) st.h = true;
   s.answered = true;
   s.skipped++;
   s.records.push({ id: id, result: kind || 'skip', input: '', hinted: s.hinted });
@@ -549,7 +692,10 @@ function dunnoMeaning() {
   if (s.answered) return;
   const id = s.ids[s.i];
   const st = statOf(id);
-  st.t += 1; st.w += 1; st.nb = true; st.at = Date.now(); st.last = 'err';
+  const m = st.m;
+  m.t += 1; m.w += 1;
+  addNotebook(st);
+  st.at = Date.now();
   s.answered = true;
   s.skipped++;
   s.records.push({
@@ -573,7 +719,7 @@ function useHint() {
   const id = s.ids[s.i];
   const st = statOf(id);
   st.h = true;
-  st.nb = true;   // Q17：用过提示也进生词本
+  addNotebook(st);   // 用过提示也进生词本
   saveState();
   render();
 }
@@ -593,17 +739,18 @@ function submitMeaning() {
 
   const id = s.ids[s.i];
   const st = statOf(id);
-  st.t += 1; st.at = Date.now(); st.last = ok ? 'ok' : 'err';
+  const m = st.m;
+  m.t += 1;
+  st.at = Date.now();
+  if (ok) m.c += 1; else m.w += 1;
   s.answered = true;
   s.records.push({ id: id, result: ok ? 'ok' : 'err', chosen: chosen, correct: correctIdx });
 
   if (ok) {
     s.correct++;
-    if (st.nb) st.nb = false;
   } else {
     s.wrong++;
-    st.w += 1;
-    st.nb = true;
+    addNotebook(st);           // 生词本只增不减
   }
   saveState();
   render();
@@ -760,15 +907,27 @@ function makeOptions(id) {
   const pool = groups.filter(function (g) { return g.kind !== 'specific'; });
   const usable = pool.length ? pool : groups;
 
-  // 正确项：该词 1~3 个「不同概念」义项（同概念/同族/互相包含的不重复选）
+  // 正确项：把「意思相同/非常相近」的义项合并进同一个选项，避免变成中文找同义词大赛
   const pickedCorrect = [];
   usable.forEach(function (g) {
-    if (pickedCorrect.length >= 3) return;
-    if (pickedCorrect.some(function (p) {
-      if (p.concept && g.concept && p.concept === g.concept) return true;
-      return relatedTerm(p.text, g.text) || sameSense(p.text, g.text);
-    })) return;
-    pickedCorrect.push({ pos: g.pos, text: g.text, kind: g.kind, concept: g.concept });
+    let host = null;
+    for (let i = 0; i < pickedCorrect.length; i++) {
+      const p = pickedCorrect[i];
+      if ((p.concept && g.concept && p.concept === g.concept) ||
+          relatedTerm(p.text, g.text) || sameSense(p.text, g.text)) { host = p; break; }
+    }
+    if (host) {
+      // 合并到已有选项（去重）
+      const parts = host.text.split('，');
+      g.text.split('，').forEach(function (t) {
+        if (t && parts.indexOf(t) < 0) parts.push(t);
+      });
+      host.text = parts.join('，');
+      return;
+    }
+    if (pickedCorrect.length < 3) {
+      pickedCorrect.push({ pos: g.pos, text: g.text, kind: g.kind, concept: g.concept });
+    }
   });
   let correct = pickedCorrect;
   if (correct.length > 3) correct = correct.slice(0, 3);
@@ -909,7 +1068,7 @@ function viewHome() {
   let tot = 0, cor = 0;
   STATE.sessions.forEach(function (s) { tot += s.total; cor += s.correct; });
   const rate = pct(cor, tot);
-  const studied = Object.keys(STATE.stats).filter(function (k) { return STATE.stats[k].t > 0; }).length;
+  const studied = Object.keys(STATE.stats).filter(function (k) { return totalTested(STATE.stats[k]) > 0; }).length;
   const book = BOOKS.filter(function (b) { return b.id === APP.book; })[0] || BOOKS[0];
 
   let h = '<div class="topbar"><button class="icon-btn" data-nav="books">← 词书</button>';
@@ -966,13 +1125,13 @@ function viewDict() {
   h += (s.answered ? 'disabled ' : '') + 'value="' + esc(s.answered ? (s.records[s.records.length - 1].input || '') : '') + '"></div>';
 
   h += '<div class="hint-row">';
-  if (s.answered) {
-    h += '<span class="hint-empty">&nbsp;</span>';
-  } else {
-    h += '<span class="hint-text">' + esc(hintText(w.word, s.hinted ? 2 : 1)) + '</span>';
-    h += '<span class="hint-empty">' + (s.hinted ? '（提示已用完，只能再给这一个字母）' : '首字母已给出，点「提示」再看一个字母') + '</span>';
-  }
+  const _last = s.answered ? s.records[s.records.length - 1] : null;
+  const _graded = !!(_last && _last.result === 'err');   // 只有判错后才逐位标红
+  h += '<div class="slots" id="slots">' + slotsHtml(w.word, s.hinted ? 2 : 1, _last ? (_last.input || '') : '', _graded) + '</div>';
   h += '</div>';
+  if (!s.answered) {
+    h += '<div class="hint-tip" id="hintTip">' + (s.hinted ? '提示已用完，只能再给这一个字母' : '首字母已给出，点「提示」再看一个字母') + '</div>';
+  }
 
   h += '<div class="actions">';
   if (!s.answered) {
@@ -998,7 +1157,7 @@ function viewDict() {
       h += '<div class="line"><span class="k">你的输入</span><span class="v you">' + (last.input ? esc(last.input) : '（空）') + '</span></div>';
       h += '<div class="line"><span class="k">正确答案</span><span class="v">' + esc(w.word) + '</span></div>';
       h += '<div class="line"><span class="k">释义</span><span class="v" style="font-weight:500">' + esc(w.short) + '</span></div>';
-      h += '<div class="line"><span class="k">生词本</span><span class="v" style="font-weight:500;color:#b3261e">已加入，错误 ' + statOf(id).w + ' 次</span></div>';
+      h += '<div class="line"><span class="k">生词本</span><span class="v" style="font-weight:500;color:#b3261e">已加入，累计错 ' + (statOf(id).d.w + statOf(id).m.w) + ' 次</span></div>';
       h += '</div>';
     }
   }
@@ -1006,12 +1165,48 @@ function viewDict() {
   return h;
 }
 
+/* 横线格子
+   答题中（graded=false）：只要打了字就显示为绿色，不比较对错——避免用户逐位试字母；
+                           只有输入长度超过词长时才整排变红（长度提示，不算泄题）。
+   已提交（graded=true）：逐位比对，错的位置标红，让用户看清自己错在哪。 */
+function slotsHtml(word, revealed, typed, graded) {
+  const w = String(word);
+  const t = String(typed || '');
+  const over = t.length > w.length;
+  const gap = function (ch) { return ch === ' ' ? '␣' : esc(ch); };
+  let h = '';
+  for (let i = 0; i < w.length; i++) {
+    let cls = 'slot', show = '';
+    if (over) {
+      // 超长：整排红，提示长度超了
+      cls += ' over'; show = t[i] || '';
+    } else if (i < t.length) {
+      if (graded && t[i].toLowerCase() !== w[i].toLowerCase()) { cls += ' bad'; }
+      else { cls += ' ok'; }
+      show = t[i];
+    } else if (i < revealed && !graded) {
+      cls += ' shown'; show = w[i];
+    }
+    h += '<span class="' + cls + '">' + (show ? gap(show) : '') + '</span>';
+  }
+  if (over) {
+    for (let i = w.length; i < t.length; i++) h += '<span class="slot over">' + gap(t[i]) + '</span>';
+  }
+  return h;
+}
+
+function slotCountHtml(word, typed) {
+  const L = String(word).length;
+  const n = String(typed || '').length;
+  if (n > L) return '<span class="over">超出 ' + (n - L) + ' 个</span>';
+  return '';
+}
+
+/* 兼容旧调用（结果页/提示文案） */
 function hintText(word, reveal) {
   const w = String(word);
   const n = Math.max(1, Math.min(reveal || 1, w.length));
-  const shown = w.slice(0, n).split('').join(' ');
-  if (w.length <= n) return shown;
-  return shown + ' ' + '_'.repeat(w.length - n);
+  return w.slice(0, n).split('').join(' ') + (w.length > n ? ' ' + '_'.repeat(w.length - n) : '');
 }
 
 /* ---------- 词义 ---------- */
@@ -1086,7 +1281,7 @@ function viewMean() {
       if (extra.length) msg.push('错选 ' + extra.length + ' 项');
       h += '<div class="feedback show err"><div class="line"><span class="k">结果</span><span class="v">✗ ' + msg.join('，') + '</span></div>';
       h += '<div class="line"><span class="k">正确答案</span><span class="v">' + correctIdx.map(function (i) { return (q.options[i].pos ? q.options[i].pos + ' ' : '') + esc(q.options[i].text); }).join(' / ') + '</span></div>';
-      h += '<div class="line"><span class="k">生词本</span><span class="v" style="font-weight:500;color:#b3261e">已加入，错误 ' + statOf(id).w + ' 次</span></div></div>';
+      h += '<div class="line"><span class="k">生词本</span><span class="v" style="font-weight:500;color:#b3261e">已加入，累计错 ' + totalWrong(statOf(id)) + ' 次</span></div></div>';
     }
   }
   h += '</div>';
@@ -1141,34 +1336,139 @@ function viewResult() {
 
 /* ---------- 生词本 ---------- */
 function viewNotebook() {
-  const ids = Object.keys(STATE.stats)
+  const all = Object.keys(STATE.stats)
     .filter(function (k) { return STATE.stats[k].nb; })
     .map(Number);
+
+  // 按「进入生词本的日期」归组
+  const dayOf = function (id) {
+    const st = STATE.stats[id];
+    const ts = st.nbAt || st.at || 0;
+    return ts ? dayKey(ts) : 'unknown';
+  };
+  const byDay = {};
+  all.forEach(function (id) { (byDay[dayOf(id)] = byDay[dayOf(id)] || []).push(id); });
+  const days = Object.keys(byDay).sort().reverse();   // 最近的在前
+
+  const picked = APP.nbDay || null;
+  const ids = (picked ? (byDay[picked] || []) : all).slice();
   ids.sort(function (a, b) {
     const sa = STATE.stats[a], sb = STATE.stats[b];
-    return (sb.w - sa.w) || ((sb.at || 0) - (sa.at || 0));
+    return (totalWrong(sb) - totalWrong(sa)) || ((sb.at || 0) - (sa.at || 0));
   });
 
   let h = topbar('生词本', 'home');
   h += '<div class="card" style="padding:18px 18px 20px">';
-  h += '<div class="nb-head" style="margin-bottom:0"><div><div style="font-weight:700;font-size:18px">共 ' + ids.length + ' 个生词</div>';
-  h += '<div style="color:var(--muted);font-size:13.5px">错误次数越多，被优先考到的概率越高</div></div>';
-  if (ids.length) h += '<button class="icon-btn" data-act="clear-notebook">清空</button>';
+  h += '<div class="nb-head" style="margin-bottom:0"><div><div style="font-weight:700;font-size:18px">共 ' + all.length + ' 个生词' + (picked ? '（筛选后 ' + ids.length + ' 个）' : '') + '</div>';
+  h += '<div style="color:var(--muted);font-size:13.5px">生词本只增不减，只有手动「移出」才会移除</div></div>';
+  if (all.length) h += '<button class="icon-btn" data-act="clear-notebook">清空</button>';
   h += '</div></div>';
 
-  if (!ids.length) {
-    h += '<div class="empty"><span class="big">🎉</span>还没有生词<br>做一组检测，答错或跳过的词会自动收进来</div>';
+  if (!all.length) {
+    h += '<div class="empty"><span class="big">🎉</span>还没有生词<br>答错或点「不会」的词会自动收进来</div>';
     return h;
   }
+
+  // 日期筛选条
+  h += '<div class="daybar-wrap">';
+  h += '<div class="daybar">';
+  h += '<button class="daychip' + (picked ? '' : ' on') + '" data-day="">全部 <b>' + all.length + '</b></button>';
+  days.forEach(function (d) {
+    const label = d === 'unknown' ? '更早' : dayLabel(d);
+    h += '<button class="daychip' + (picked === d ? ' on' : '') + '" data-day="' + d + '">' +
+      label + ' <b>' + byDay[d].length + '</b></button>';
+  });
+  // 通过日历选中、但当天没有词时，也补一个标签
+  if (picked && !byDay[picked]) {
+    h += '<button class="daychip on" data-day="' + picked + '">' + dayLabel(picked) + ' <b>0</b></button>';
+  }
+  const calLabel = APP.nbDay ? ('📅 ' + dayLabel(APP.nbDay)) : '📅 按日期筛选';
+  h += '<button class="daychip cal-btn' + (APP.calOpen || APP.nbDay ? ' on' : '') + '" data-cal-toggle>' + calLabel + '</button>';
+  h += '</div>';
+  if (APP.calOpen) h += calHtml();
+  h += '</div>';
+
+  if (!ids.length) {
+    h += '<div class="empty" style="padding:40px 10px">这一天没有生词</div>';
+    return h;
+  }
+
   h += '<div class="nb-list" style="margin-top:14px">';
   ids.forEach(function (id) {
     const w = VOCAB[id], st = STATE.stats[id];
+    const d = st.d, m = st.m;
+    const wsum = d.w + m.w;
+    const added = st.nbAt ? dayLabel(dayKey(st.nbAt)) : '';
     h += '<div class="nb-item"><div class="main">';
-    h += '<div class="w">' + esc(w.word) + (st.w ? '<span class="badge">×' + st.w + '</span>' : '<span class="badge hint">提示</span>') + '</div>';
+    h += '<div class="w">' + esc(w.word) + (wsum ? '<span class="badge">×' + wsum + '</span>' : '<span class="badge hint">提示</span>') + '</div>';
     h += '<div class="m">' + esc(w.short) + '</div>';
-    h += '<div class="meta">考察 ' + st.t + ' 次 · ' + (st.w ? '错误 ' + st.w + ' 次' : '仅用过提示') + '</div>';
+    h += '<div class="meta">默写 ' + d.c + '/' + d.t + ' · 词义 ' + m.c + '/' + m.t +
+      '（对/考） · 错 ' + wsum + ' 次' + (added ? ' · ' + added + ' 加入' : '') + '</div>';
     h += '</div><button class="del" data-remove="' + id + '">移出</button></div>';
   });
+  h += '</div>';
+  return h;
+}
+
+/* 日期工具 */
+function dayKey(ts) {
+  const d = new Date(ts);
+  const p = function (n) { return String(n).padStart(2, '0'); };
+  return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+}
+function keyOf(y, m, d) {
+  const p = function (n) { return String(n).padStart(2, '0'); };
+  return y + '-' + p(m + 1) + '-' + p(d);
+}
+function dayLabel(key) {
+  if (key === 'unknown') return '更早';
+  const today = dayKey(Date.now());
+  const y = new Date(); y.setDate(y.getDate() - 1);
+  const yest = dayKey(y.getTime());
+  if (key === today) return '今天';
+  if (key === yest) return '昨天';
+  const m = key.slice(5).replace('-', '月') + '日';
+  return key.slice(0, 4) === today.slice(0, 4) ? m : key.slice(0, 4) + '年' + m;
+}
+
+/* 日历弹层：可选任意过去日期，未来日期置灰不可点 */
+function calHtml() {
+  const todayKey = dayKey(Date.now());
+  const y = APP.calY, m = APP.calM;                  // m 是 0-11
+  const firstDow = (new Date(y, m, 1).getDay() + 6) % 7;   // 周一 = 0
+  const daysInMonth = new Date(y, m + 1, 0).getDate();
+  const now = new Date();
+  const isCurMonth = (y === now.getFullYear() && m === now.getMonth());
+
+  let h = '<div class="cal-pop" data-cal-pop>';
+  h += '<div class="cal-head">';
+  h += '<button class="cal-nav" data-cal-prev aria-label="上个月">‹</button>';
+  h += '<div class="cal-title">' + y + '年' + (m + 1) + '月</div>';
+  h += '<button class="cal-nav" data-cal-next aria-label="下个月"' + (isCurMonth ? ' disabled' : '') + '>›</button>';
+  h += '</div>';
+
+  h += '<div class="cal-week">';
+  ['一', '二', '三', '四', '五', '六', '日'].forEach(function (d) { h += '<span>' + d + '</span>'; });
+  h += '</div>';
+
+  h += '<div class="cal-grid">';
+  for (let i = 0; i < firstDow; i++) h += '<span class="cal-cell blank"></span>';
+  for (let d = 1; d <= daysInMonth; d++) {
+    const key = keyOf(y, m, d);
+    const future = key > todayKey;
+    let cls = 'cal-cell';
+    if (future) cls += ' off';
+    if (key === todayKey) cls += ' today';
+    if (key === APP.nbDay) cls += ' sel';
+    h += future
+      ? '<span class="' + cls + '">' + d + '</span>'
+      : '<button class="' + cls + '" data-cal-day="' + key + '">' + d + '</button>';
+  }
+  h += '</div>';
+
+  h += '<div class="cal-foot"><button class="cal-today" data-cal-today>回到今天</button>';
+  if (APP.nbDay) h += '<button class="cal-clear" data-cal-clear>清除筛选</button>';
+  h += '</div>';
   h += '</div>';
   return h;
 }
@@ -1208,6 +1508,63 @@ function bindScreen() {
   $$('[data-start]').forEach(function (b) {
     b.addEventListener('click', function () { startSession(b.getAttribute('data-start')); });
   });
+  // 生词本：按日期筛选
+  $$('[data-day]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      APP.nbDay = b.getAttribute('data-day') || null;
+      APP.calOpen = false;
+      render();
+    });
+  });
+
+  // 生词本：日历筛选
+  const openCal = function () {
+    APP.calOpen = !APP.calOpen;
+    if (APP.calOpen) {
+      const base = (APP.nbDay && /^\d{4}-\d{2}-\d{2}$/.test(APP.nbDay)) ? APP.nbDay : dayKey(Date.now());
+      APP.calY = Number(base.slice(0, 4));
+      APP.calM = Number(base.slice(5, 7)) - 1;
+    }
+    render();
+  };
+  const shiftMonth = function (delta) {
+    let y = APP.calY, m = APP.calM + delta;
+    if (m < 0) { m = 11; y--; }
+    if (m > 11) { m = 0; y++; }
+    const now = new Date();
+    // 不允许翻到未来月份
+    if (y > now.getFullYear() || (y === now.getFullYear() && m > now.getMonth())) return;
+    APP.calY = y; APP.calM = m;
+    render();
+  };
+  $$('[data-cal-toggle]').forEach(function (b) {
+    b.addEventListener('click', function (e) { e.stopPropagation(); openCal(); });
+  });
+  $$('[data-cal-prev]').forEach(function (b) { b.addEventListener('click', function () { shiftMonth(-1); }); });
+  $$('[data-cal-next]').forEach(function (b) { b.addEventListener('click', function () { shiftMonth(1); }); });
+  $$('[data-cal-day]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      APP.nbDay = b.getAttribute('data-cal-day');
+      APP.calOpen = false;
+      render();
+    });
+  });
+  $$('[data-cal-today]').forEach(function (b) {
+    b.addEventListener('click', function () { APP.nbDay = dayKey(Date.now()); APP.calOpen = false; render(); });
+  });
+  $$('[data-cal-clear]').forEach(function (b) {
+    b.addEventListener('click', function () { APP.nbDay = null; APP.calOpen = false; render(); });
+  });
+  if (!APP._calOutside) {
+    APP._calOutside = function (ev) {
+      if (!APP.calOpen) return;
+      const t = ev.target;
+      if (t && t.closest && (t.closest('[data-cal-pop]') || t.closest('[data-cal-toggle]'))) return;
+      APP.calOpen = false;
+      render();
+    };
+    document.addEventListener('click', APP._calOutside);
+  }
 
   const ans = $('#answer');
   if (ans) {
@@ -1215,6 +1572,19 @@ function bindScreen() {
     ans.addEventListener('keydown', function (e) {
       if (e.key === 'Enter') { e.preventDefault(); submitFromInput(); }
     });
+    // 实时刷新横线格子：输入阶段只显示「已输入 / 未输入」，不判断对错
+    const refresh = function () {
+      const s = APP.session;
+      if (!s || s.answered) return;   // 已提交后保持“逐位标红”的结果，不要覆盖
+      const w = VOCAB[s.ids[s.i]].word;
+      const slots = $('#slots');
+      if (slots) slots.innerHTML = slotsHtml(w, s.hinted ? 2 : 1, ans.value, false);
+      const cnt = $('#slotCount');
+      if (cnt) cnt.innerHTML = slotCountHtml(w, ans.value);
+    };
+    ans.addEventListener('input', refresh);
+    ans.addEventListener('keyup', refresh);
+    refresh();
   }
   // 默写：答完（含答错/不会/跳过）后按回车即可进入下一题，全程可用键盘
   if (!APP._dictKey) {
@@ -1337,7 +1707,7 @@ function confirmReset() {
 
 function clearNotebook() {
   if (!confirm('确定清空生词本？单词的错误次数也会一并清除。')) return;
-  for (const k in STATE.stats) { STATE.stats[k].nb = false; STATE.stats[k].h = false; STATE.stats[k].w = 0; }
+  for (const k in STATE.stats) { STATE.stats[k].nb = false; STATE.stats[k].h = false; }
   saveState();
   render();
   toast('生词本已清空');
